@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de Movimentações</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Histórico do Sistema</h2>
+            <a href="dashboard.html"><button>Voltar</button></a>
+        </header>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Usuário</th>
+                    <th>Ação</th>
+                    <th>Produto</th>
+                    <th>Qtd</th>
+                </tr>
+            </thead>
+            <tbody id="listaHistorico">
+                </tbody>
+        </table>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
