@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Almoxerifado - Gestão</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2 id="userWelcome">Bem-vindo</h2>
+            <button onclick="logout()">Sair</button>
+            <a href="historico.html" id="btnHistorico" class="hidden"><button>Ver Histórico</button></a>
+        </header>
+
+        <div id="adminPanel" class="hidden">
+            <h3>Cadastrar/Editar Produto</h3>
+            <input type="text" id="prodNome" placeholder="Descrição do Produto">
+            <input type="number" id="prodQtd" placeholder="Quantidade Inicial">
+            <button id="saveBtn" onclick="salvarProduto()">Salvar Produto</button>
+        </div>
+
+        <hr>
+
+        <input type="text" id="txtBusca" class="search-bar" placeholder="Buscar produto..." onkeyup="filtrarTabela()">
+        
+        <table id="tabelaProdutos">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Qtd</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaProdutos">
+                </tbody>
+        </table>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
