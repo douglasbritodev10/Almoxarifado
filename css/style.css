@@ -1,0 +1,56 @@
+:root {
+    --azul-escuro: #1e3a8a;
+    --azul-medio: #3b82f6;
+    --azul-claro: #dbeafe;
+    --branco: #ffffff;
+    --cinza: #f3f4f6;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--azul-claro);
+    margin: 0;
+    color: var(--azul-escuro);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+    background: var(--branco);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+h2 { border-bottom: 2px solid var(--azul-escuro); padding-bottom: 10px; }
+
+input, select, button {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: var(--azul-escuro);
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+}
+
+button:hover { background-color: var(--azul-medio); }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th { background-color: var(--azul-escuro); color: white; padding: 12px; }
+
+td { border-bottom: 1px solid #ddd; padding: 10px; text-align: center; }
+
+.search-bar { width: 100%; margin-bottom: 20px; padding: 12px; box-sizing: border-box; }
+
+.hidden { display: none; }
