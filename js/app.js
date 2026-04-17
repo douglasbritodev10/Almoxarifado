@@ -234,4 +234,26 @@ window.carregarHistorico = () => {
 };
 
 window.logout = () => auth.signOut();
-window.filtrarCards = () => carregarProdutos(); // O onSnapshot já filtra via variável global se necessário
+window.filtrarCards = () => {
+    const termo = document.getElementById("txtBusca").value.toLowerCase();
+    const cards = document.querySelectorAll(".card"); // Pega todos os cards de grupo
+
+    cards.forEach(card => {
+        // Pega todo o texto dentro do card (Título e variações)
+        const textoCard = card.innerText.toLowerCase();
+        
+        if (textoCard.includes(termo)) {
+            card.style.display = "block"; // Mostra o card
+            
+            // Se o usuário digitou mais de 2 letras, expande o card automaticamente 
+            // para mostrar onde está o que ele buscou
+            if (termo.length > 2) {
+                card.classList.add("active");
+            } else {
+                card.classList.remove("active");
+            }
+        } else {
+            card.style.display = "none"; // Esconde o card se não tiver o termo
+        }
+    });
+};
