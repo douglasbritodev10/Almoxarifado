@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Almoxarifado - Dashboard</title>
+    <title>Dashboard - Almoxarifado</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -18,19 +18,21 @@
     </div>
 
     <div class="container">
-        <div id="adminPanel" class="hidden card" style="margin-bottom: 20px;">
-            <h3>Novo Produto</h3>
+        <div id="adminPanel" class="hidden card" style="padding: 20px; margin-bottom: 20px; border-left-color: var(--azul-escuro);">
+            <h3 style="margin-top:0">Novo Produto</h3>
             <input type="text" id="prodNome" placeholder="Ex: Blusa Social G" class="search-bar">
             <input type="number" id="prodQtd" placeholder="Qtd Inicial" class="search-bar">
-            <button onclick="salvarProduto()" style="background: var(--azul-escuro); color: white; width: 100%;">Cadastrar</button>
+            <button onclick="salvarProduto()" style="background: var(--azul-escuro); color: white; width: 100%;">Cadastrar Produto</button>
         </div>
 
-        <div style="display: flex; gap: 10px;">
-            <button class="btn-export" onclick="exportarExcel()">Excel</button>
-            <button class="btn-export" onclick="exportarPDF()">PDF</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div id="exportBtns">
+                <button class="btn-export" onclick="exportarExcel()">📊 Excel</button>
+                <button class="btn-export" onclick="exportarPDF()">📄 PDF</button>
+            </div>
         </div>
 
-        <input type="text" id="txtBusca" class="search-bar" placeholder="Buscar produto..." onkeyup="filtrarCards()">
+        <input type="text" id="txtBusca" class="search-bar" placeholder="Pesquisar descrição ou grupo..." onkeyup="filtrarCards()">
         
         <div id="gridProdutos" class="grid-cards">
             </div>
@@ -38,13 +40,22 @@
 
     <div id="modalAcao" class="modal">
         <div class="modal-content">
-            <h3 id="modalTitulo">Ação</h3>
+            <h3 id="modalTitulo" style="margin-top:0">Produto</h3>
+            
+            <div id="areaEditarAdmin" class="hidden" style="background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                <label style="font-size: 0.75rem; color: var(--cinza);">EDITAR DESCRIÇÃO:</label>
+                <input type="text" id="editNome" class="search-bar">
+                <button onclick="salvarEdicaoDescricao()" style="background: var(--azul-medio); color: white; width: 100%; font-size: 0.8rem;">Atualizar Nome</button>
+            </div>
+
+            <label style="font-size: 0.75rem; color: var(--cinza);">MOVIMENTAR QUANTIDADE:</label>
             <input type="number" id="modalQtd" value="1" class="search-bar" style="text-align: center; font-size: 1.5rem;">
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
                 <button id="btnEntrada" onclick="confirmarAcao('ENTRADA')" style="background: var(--verde); color: white; flex:1">Entrada</button>
                 <button id="btnSaida" onclick="confirmarAcao('SAÍDA')" style="background: var(--vermelho); color: white; flex:1">Saída</button>
             </div>
-            <button onclick="fecharModal()" style="width: 100%; margin-top: 10px; background: #ccc;">Fechar</button>
+            <button onclick="fecharModal()" style="width: 100%; margin-top: 15px; background: #e2e8f0; color: #475569;">Cancelar</button>
         </div>
     </div>
 
