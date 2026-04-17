@@ -2,39 +2,50 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Almoxerifado - Gestão</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almoxarifado - Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h2 id="userWelcome">Bem-vindo</h2>
-            <button onclick="logout()">Sair</button>
-            <a href="historico.html" id="btnHistorico" class="hidden"><button>Ver Histórico</button></a>
-        </header>
+    <div class="navbar">
+        <div class="user-info">👤 <span id="userNameDisplay">...</span></div>
+        <div>
+            <a href="historico.html" id="btnHistorico" class="hidden"><button>Histórico</button></a>
+            <button onclick="logout()" style="background: var(--vermelho); color: white;">Sair</button>
+        </div>
+    </div>
 
-        <div id="adminPanel" class="hidden">
-            <h3>Cadastrar/Editar Produto</h3>
-            <input type="text" id="prodNome" placeholder="Descrição do Produto">
-            <input type="number" id="prodQtd" placeholder="Quantidade Inicial">
-            <button id="saveBtn" onclick="salvarProduto()">Salvar Produto</button>
+    <div class="container">
+        <div id="adminPanel" class="hidden card" style="margin-bottom: 20px;">
+            <h3>Novo Produto</h3>
+            <input type="text" id="prodNome" placeholder="Ex: Blusa Social G" class="search-bar">
+            <input type="number" id="prodQtd" placeholder="Qtd Inicial" class="search-bar">
+            <button onclick="salvarProduto()" style="background: var(--azul-escuro); color: white; width: 100%;">Cadastrar</button>
         </div>
 
-        <hr>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-export" onclick="exportarExcel()">Excel</button>
+            <button class="btn-export" onclick="exportarPDF()">PDF</button>
+        </div>
 
-        <input type="text" id="txtBusca" class="search-bar" placeholder="Buscar produto..." onkeyup="filtrarTabela()">
+        <input type="text" id="txtBusca" class="search-bar" placeholder="Buscar produto..." onkeyup="filtrarCards()">
         
-        <table id="tabelaProdutos">
-            <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th>Qtd</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="listaProdutos">
-                </tbody>
-        </table>
+        <div id="gridProdutos" class="grid-cards">
+            </div>
+    </div>
+
+    <div id="modalAcao" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitulo">Ação</h3>
+            <input type="number" id="modalQtd" value="1" class="search-bar" style="text-align: center; font-size: 1.5rem;">
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button id="btnEntrada" onclick="confirmarAcao('ENTRADA')" style="background: var(--verde); color: white; flex:1">Entrada</button>
+                <button id="btnSaida" onclick="confirmarAcao('SAÍDA')" style="background: var(--vermelho); color: white; flex:1">Saída</button>
+            </div>
+            <button onclick="fecharModal()" style="width: 100%; margin-top: 10px; background: #ccc;">Fechar</button>
+        </div>
     </div>
 
     <script type="module" src="js/app.js"></script>
