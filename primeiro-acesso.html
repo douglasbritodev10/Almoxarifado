@@ -6,17 +6,19 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container" style="max-width: 450px;">
-        <h2>Finalizar Cadastro</h2>
-        <p>Defina seu nome de usuário e uma nova senha para continuar.</p>
+<div class="auth-wrapper">
+    <div class="auth-card" style="max-width: 450px;">
+        <h2 style="color: var(--azul-escuro); margin-bottom: 10px;">Finalizar Cadastro</h2>
+        <p style="color: var(--cinza); font-size: 0.9rem; margin-bottom: 20px;">Defina seu nome de usuário e uma nova senha para continuar.</p>
         
         <input type="text" id="novoUsername" placeholder="Nome de Usuário (Ex: douglas_brito)" class="search-bar">
         <input type="password" id="novaSenha" placeholder="Nova Senha" class="search-bar">
         <input type="password" id="confirmaSenha" placeholder="Confirme a Senha" class="search-bar">
         
-        <button onclick="finalizarCadastro()" style="width: 100%;">Salvar e Acessar</button>
-        <p id="msgErro" style="color: red;"></p>
+        <button onclick="finalizarCadastro()" style="width: 100%; background: var(--verde); color: white; margin-top: 15px;">Salvar e Acessar</button>
+        <p id="msgErro" style="color: var(--vermelho); font-size: 0.8rem; margin-top: 10px;"></p>
     </div>
+</div>
 
     <script type="module" src="js/auth.js"></script>
 </body>
