@@ -135,13 +135,55 @@ window.exportarPDF = () => {
     const docPdf = new jsPDF();
     const busca = document.getElementById('txtBusca').value.toLowerCase();
     const dados = listaCompletaProdutos.filter(p => p.descricao.toLowerCase().includes(busca));
-    docPdf.text("Relatório de Estoque - Móveis Simonetti", 10, 10);
-    let y = 20;
-    dados.forEach(p => {
-        docPdf.text(`${p.descricao}: ${p.quantidade}`, 10, y);
-        y += 10;
+
+    // Cabeçalho Profissional
+    docPdf.setFillColor(30, 58, 138); // Azul Simonetti
+    docPdf.rect(0, 0, 210, 30, 'F');
+    docPdf.setTextColor(255, 255, 255);
+    docPdf.setFontSize(16);
+    docPdf.text("RELATÓRIO DE ESTOQUE - MÓVEIS SIMONETTI", 15, 20);
+    
+    docPdf.setTextColor(100, 116, 139);
+    docPdf.setFontSize(10);
+    docPdf.text(`Gerado por: ${userName} em ${new Date().toLocaleString('pt-BR')}`, 15, 38);
+
+    // Tabela Manual com Quebra de Página
+    let y = 50;
+    docPdf.setFontSize(11);
+    docPdf.setTextColor(0, 0, 0);
+
+    // Linha de títulos
+    docPdf.setFont(undefined, 'bold');
+    docPdf.text("PRODUTO", 15, y);
+    docPdf.text("QTD", 170, y);
+    docPdf.line(15, y + 2, 195, y + 2);
+    y += 10;
+    docPdf.setFont(undefined, 'normal');
+
+    dados.forEach((p, index) => {
+        // Se chegar perto do fim da página (A4 tem 297mm)
+        if (y > 270) {
+            docPdf.addPage();
+            y = 20;
+            // Repete o topo da tabela na nova página
+            docPdf.setFont(undefined, 'bold');
+            docPdf.text("PRODUTO", 15, y);
+            docPdf.text("QTD", 170, y);
+            docPdf.line(15, y + 2, 195, y + 2);
+            y += 10;
+            docPdf.setFont(undefined, 'normal');
+        }
+
+        docPdf.text(p.descricao.toUpperCase(), 15, y);
+        docPdf.text(p.quantidade.toString(), 170, y);
+        
+        // Linha pontilhada leve
+        docPdf.setDrawColor(230, 230, 230);
+        docPdf.line(15, y + 2, 195, y + 2);
+        y += 8;
     });
-    docPdf.save("Estoque_Simonetti.pdf");
+
+    docPdf.save(`Estoque_Simonetti_${new Date().toLocaleDateString()}.pdf`);
 };
 
 // --- HISTÓRICO ---
@@ -154,23 +196,37 @@ async function registrarHistorico(tipo, produto, qtd) {
 }
 
 window.carregarHistorico = () => {
-    const inicio = document.getElementById('dataInicio').value;
+    const inicio = document.getElementById('dataInicio').value; // Formato YYYY-MM-DD
     const fim = document.getElementById('dataFim').value;
     const busca = document.getElementById('buscaHistorico').value.toLowerCase();
     
-    const q = query(collection(db, "historico"), where("dataISO", ">=", inicio), where("dataISO", "<=", fim), orderBy("dataISO", "desc"));
+    // Filtro garantindo que pegue o dia inteiro (do início do dia até o final do dia)
+    const q = query(
+        collection(db, "historico"), 
+        where("dataISO", ">=", inicio), 
+        where("dataISO", "<=", fim), 
+        orderBy("dataISO", "desc"),
+        orderBy("timestamp", "desc")
+    );
 
     onSnapshot(q, (snapshot) => {
         const lista = document.getElementById('listaHistorico');
         lista.innerHTML = "";
+        
+        if (snapshot.empty) {
+            lista.innerHTML = "<p style='text-align:center; color:gray;'>Nenhum registro encontrado para este período.</p>";
+            return;
+        }
+
         snapshot.forEach(docSnap => {
             const h = docSnap.data();
+            // Filtro de busca inteligente (front-end)
             if(h.usuario.toLowerCase().includes(busca) || h.produto.toLowerCase().includes(busca)) {
                 lista.innerHTML += `
-                <div class="card" style="padding:12px; border-left-color: ${h.acao === 'SAÍDA' ? 'red' : h.acao === 'EDIÇÃO' ? 'orange' : 'green'}">
-                    <div style="font-size:0.7rem; color:var(--cinza)">${h.dataBR} ${h.hora} - <b>${h.usuario}</b></div>
-                    <div style="font-weight:bold; margin:3px 0">${h.acao}: ${h.produto}</div>
-                    <div style="font-size:0.8rem">Qtd: ${h.quantidade}</div>
+                <div class="card" style="padding:12px; border-left: 5px solid ${h.acao === 'SAÍDA' ? 'red' : 'green'}">
+                    <div style="font-size:0.75rem; color:#64748b">${h.dataBR} ${h.hora} - <b>${h.usuario}</b></div>
+                    <div style="font-weight:bold; margin:5px 0">${h.acao}: ${h.produto}</div>
+                    <div style="font-size:0.85rem">Quantidade: ${h.quantidade}</div>
                 </div>`;
             }
         });
