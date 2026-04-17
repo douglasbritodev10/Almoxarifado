@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histórico de Movimentações</title>
+    <title>Histórico - Almoxarifado</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -13,13 +13,13 @@
     </div>
 
     <div class="container">
-        <div class="card" style="margin-bottom: 20px;">
-            <h4>Filtros de Período</h4>
+        <div class="card" style="padding: 15px; margin-bottom: 20px;">
+            <h4 style="margin:0 0 10px 0">Filtros de Período</h4>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <input type="date" id="dataInicio" class="search-bar" style="width: auto;">
-                <input type="date" id="dataFim" class="search-bar" style="width: auto;">
-                <input type="text" id="buscaHistorico" placeholder="Buscar produto ou usuário..." class="search-bar" style="flex:1" onkeyup="filtrarHistorico()">
+                <input type="date" id="dataInicio" class="search-bar" style="width: auto; flex:1">
+                <input type="date" id="dataFim" class="search-bar" style="width: auto; flex:1">
             </div>
+            <input type="text" id="buscaHistorico" placeholder="Buscar por usuário ou produto..." class="search-bar" onkeyup="carregarHistorico()">
         </div>
 
         <div id="listaHistorico" class="grid-cards">
