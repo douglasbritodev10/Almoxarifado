@@ -35,6 +35,12 @@ function renderizarLayout() {
     if (userRole === 'admin') {
         document.getElementById('adminPanel')?.classList.remove('hidden');
         document.getElementById('btnHistorico')?.classList.remove('hidden');
+        
+        // Ativa o clique do botão apenas para Admin
+        const btnSalvar = document.getElementById('btnSalvarNovo');
+        if(btnSalvar) {
+            btnSalvar.onclick = () => window.salvarProduto();
+        }
     }
 }
 
@@ -110,11 +116,19 @@ window.salvarEdicaoDescricao = async () => {
     fecharModal();
 };
 
+// Procure a função confirmarAcao e ajuste a trava de Colaborador:
 window.confirmarAcao = async (tipo) => {
+    // NOVA REGRA: Colaborador só pode dar SAÍDA
+    if (userRole === 'colaborador' && tipo === 'ENTRADA') {
+        return alert("Colaboradores só podem realizar saídas de material.");
+    }
+
     const valor = parseInt(document.getElementById('modalQtd').value);
     if (isNaN(valor) || valor <= 0) return alert("Valor inválido");
+    
     let novaQtd = tipo === 'ENTRADA' ? currentProdQtd + valor : currentProdQtd - valor;
     if (novaQtd < 0) return alert("Estoque insuficiente!");
+    
     await updateDoc(doc(db, "produtos", currentProdId), { quantidade: novaQtd });
     await registrarHistorico(tipo, currentProdNome, valor);
     fecharModal();
