@@ -2,29 +2,28 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico de Movimentações</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <header style="display: flex; justify-content: space-between; align-items: center;">
-            <h2>Histórico do Sistema</h2>
-            <a href="dashboard.html"><button>Voltar</button></a>
-        </header>
+    <div class="navbar">
+        <div class="user-info">👤 <span id="userNameDisplay">...</span></div>
+        <a href="dashboard.html"><button style="background: white; color: var(--azul-escuro);">Voltar</button></a>
+    </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Data/Hora</th>
-                    <th>Usuário</th>
-                    <th>Ação</th>
-                    <th>Produto</th>
-                    <th>Qtd</th>
-                </tr>
-            </thead>
-            <tbody id="listaHistorico">
-                </tbody>
-        </table>
+    <div class="container">
+        <div class="card" style="margin-bottom: 20px;">
+            <h4>Filtros de Período</h4>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="date" id="dataInicio" class="search-bar" style="width: auto;">
+                <input type="date" id="dataFim" class="search-bar" style="width: auto;">
+                <input type="text" id="buscaHistorico" placeholder="Buscar produto ou usuário..." class="search-bar" style="flex:1" onkeyup="filtrarHistorico()">
+            </div>
+        </div>
+
+        <div id="listaHistorico" class="grid-cards">
+            </div>
     </div>
 
     <script type="module" src="js/app.js"></script>
