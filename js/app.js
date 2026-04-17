@@ -257,3 +257,32 @@ window.filtrarCards = () => {
         }
     });
 };
+
+// --- FUNÇÃO PARA SALVAR NOVO PRODUTO (ADMIN) ---
+window.salvarProduto = async () => {
+    if (userRole !== 'admin') return alert("Apenas administradores podem cadastrar.");
+
+    const nome = document.getElementById('prodNome').value;
+    const qtd = parseInt(document.getElementById('prodQtd').value);
+
+    if (!nome || isNaN(qtd)) return alert("Preencha o nome e a quantidade corretamente.");
+
+    try {
+        await addDoc(collection(db, "produtos"), {
+            descricao: nome,
+            quantidade: qtd,
+            timestamp: Date.now()
+        });
+
+        await registrarHistorico("CADASTRO", `Novo produto: ${nome}`, qtd);
+
+        // Limpar campos
+        document.getElementById('prodNome').value = "";
+        document.getElementById('prodQtd').value = "";
+        
+        alert("Produto cadastrado com sucesso!");
+    } catch (e) {
+        console.error("Erro ao salvar:", e);
+        alert("Erro ao salvar produto no banco de dados.");
+    }
+};
