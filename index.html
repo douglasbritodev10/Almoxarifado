@@ -6,13 +6,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container" style="max-width: 400px;">
-        <h2>Login de Acesso</h2>
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h2 style="color: var(--azul-escuro); margin-bottom: 20px;">Login de Acesso</h2>
         <input type="text" id="loginId" placeholder="E-mail ou Usuário" class="search-bar">
         <input type="password" id="loginSenha" placeholder="Senha" class="search-bar">
-        <button onclick="realizarLogin()" style="width: 100%;">Entrar</button>
-        <p id="msgErro" style="color: red;"></p>
+        <button onclick="realizarLogin()" style="width: 100%; background: var(--azul-escuro); color: white; margin-top: 10px;">Entrar</button>
+        <p id="msgErro" style="color: var(--vermelho); font-size: 0.8rem; margin-top: 10px;"></p>
     </div>
+</div>
 
     <script type="module" src="js/auth.js"></script>
 </body>
