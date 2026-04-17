@@ -45,12 +45,12 @@ body {
     font-size: 1rem;
 }
 
-/* Sistema de Cards Expansíveis (Accordion) */
+/* Ajuste no css/style.css */
 .grid-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 15px;
-    margin-top: 15px;
+    align-items: start; /* IMPORTANTE: Isso impede que os cards estiquem juntos */
 }
 
 .card {
@@ -120,6 +120,24 @@ button {
     cursor: pointer;
     font-weight: 600;
     transition: 0.2s;
+}
+
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f1f5f9;
+}
+
+.auth-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
 }
 
 button:active { transform: scale(0.98); }
