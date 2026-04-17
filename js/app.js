@@ -209,12 +209,15 @@ async function registrarHistorico(tipo, produto, qtd) {
     });
 }
 
+// --- HISTÓRICO COM ATUALIZAÇÃO AUTOMÁTICA ---
 window.carregarHistorico = () => {
-    const inicio = document.getElementById('dataInicio').value; // Formato YYYY-MM-DD
+    const inicio = document.getElementById('dataInicio').value; 
     const fim = document.getElementById('dataFim').value;
     const busca = document.getElementById('buscaHistorico').value.toLowerCase();
     
-    // Filtro garantindo que pegue o dia inteiro (do início do dia até o final do dia)
+    // Se não houver data selecionada, interrompe para evitar erro na consulta
+    if (!inicio || !fim) return;
+
     const q = query(
         collection(db, "historico"), 
         where("dataISO", ">=", inicio), 
@@ -225,6 +228,8 @@ window.carregarHistorico = () => {
 
     onSnapshot(q, (snapshot) => {
         const lista = document.getElementById('listaHistorico');
+        if (!lista) return; // Segurança caso não esteja na página de histórico
+        
         lista.innerHTML = "";
         
         if (snapshot.empty) {
@@ -234,7 +239,6 @@ window.carregarHistorico = () => {
 
         snapshot.forEach(docSnap => {
             const h = docSnap.data();
-            // Filtro de busca inteligente (front-end)
             if(h.usuario.toLowerCase().includes(busca) || h.produto.toLowerCase().includes(busca)) {
                 lista.innerHTML += `
                 <div class="card" style="padding:12px; border-left: 5px solid ${h.acao === 'SAÍDA' ? 'red' : 'green'}">
@@ -246,6 +250,10 @@ window.carregarHistorico = () => {
         });
     });
 };
+
+// ADICIONE ESTAS LINHAS LOGO ABAIXO DA FUNÇÃO ACIMA:
+document.getElementById('dataInicio')?.addEventListener('change', carregarHistorico);
+document.getElementById('dataFim')?.addEventListener('change', carregarHistorico);
 
 window.logout = () => auth.signOut();
 window.filtrarCards = () => {
