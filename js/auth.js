@@ -29,7 +29,7 @@ window.realizarLogin = async () => {
         if (!userDoc.exists()) {
             window.location.href = "primeiro-acesso.html";
         } else {
-            window.location.href = "dashboard.html";
+            window.location.href = "almoxerifado.html";
         }
 
     } catch (error) {
@@ -58,7 +58,7 @@ window.finalizarCadastro = async () => {
         await updatePassword(user, novaSenha);
 
         alert("Cadastro finalizado!");
-        window.location.href = "dashboard.html";
+        window.location.href = "almoxerifado.html";
 
     } catch (error) {
         document.getElementById('msgErro').innerText = "Erro ao salvar: " + error.message;
